@@ -321,7 +321,7 @@ function get_dbus_data() {
 				document.getElementById("show_btn2").style.display=""
 			}else{
 				document.getElementById("show_btn2").style.display="none"
-			}
+			}document.getElementById("show_btn88").style.display="none"
 			if(db_merlinclash["merlinclash_check_controllist"] == "1"){
 				document.getElementById("show_btn9").style.display=""
 			}else{
@@ -710,7 +710,7 @@ function push_data(script, arg, obj, flag){
 }
 function tabSelect(w) {
 	trig=".show-btn" + w;
-	for (var i = 0; i <= 10; i++) {
+	for (var i = 0; i <= 99; i++) {
 		$('.show-btn' + i).removeClass('active');
 		$('#tablet_' + i).hide();
 	}
@@ -754,7 +754,7 @@ function toggle_func() {
 			tabSelect(0);
 			$('#apply_button').show();
 			$('#delallowneracls_button').hide();
-		});
+		});$(".show-btn88").click(function() {tabSelect(88);$('#apply_button').hide();$('#delallowneracls_button').hide();});
 	//配置文件栏
 	$(".show-btn1").click(
 		function() {
@@ -973,8 +973,9 @@ function get_clash_status_front() {
 						}else{
 						zashHref   = "http://"+ location.hostname + ":" +arr[3]+ "/ui/zashboard/#/setup?hostname=" + location.hostname + "&port=" + arr[3] + "&secret=" + arr[16];
 					}
+					document.getElementById("show_btn88").style.display="";
+					$("#zash").html("<a type='button' style='vertical-align: middle; cursor:pointer;' class='ks_btn' href='" + zashHref + "' target='_blank' >访问 ZashBoard-Clash 面板</a>");$("#zash-board").html("<iframe id='zash-frame' style='width:100%;min-height:70vh;border:0;' src='"+zashHref+"'></iframe>");
 
-					$("#zash").html("<a type='button' style='vertical-align: middle; cursor:pointer;' class='ks_btn' href='" + zashHref + "' target='_blank' >访问 ZashBoard-Clash 面板</a>");
 				E("clash_yamlsel").innerHTML = arr[14];
 				}
 				init_count = 1;
@@ -1096,7 +1097,7 @@ function dc_tj_yaml (action) {
 
 }
 function get_online_yaml(action) {
-	var dbus_post = {};
+	var dbus_post = {};updateInputValue();
 	if(!$.trim($('#merlinclash_uploadrename').val())){
 		alert("重命名框不能为空！");
 		return false;
@@ -2981,20 +2982,20 @@ function savesniffer(){
 
 function geoip_update(action){
 	var dbus_post = {};
-	var date = new Date();
-	    var seperator1 = "-";
-	    var seperator2 = ":";
-	    var month = date.getMonth() + 1;
-	    var strDate = date.getDate();
-	    if (month >= 1 && month <= 9) {
-		        month = "0" + month;
-	    }
-	    if (strDate >= 0 && strDate <= 9) {
-		        strDate = "0" + strDate;
-	    }
-	    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-	            + " " + date.getHours() + seperator2 + date.getMinutes()
-	            + seperator2 + date.getSeconds();
+	var date = new Date();
+	    var seperator1 = "-";
+	    var seperator2 = ":";
+	    var month = date.getMonth() + 1;
+	    var strDate = date.getDate();
+	    if (month >= 1 && month <= 9) {
+		        month = "0" + month;
+	    }
+	    if (strDate >= 0 && strDate <= 9) {
+		        strDate = "0" + strDate;
+	    }
+	    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+	            + " " + date.getHours() + seperator2 + date.getMinutes()
+	            + seperator2 + date.getSeconds();
 	layer.confirm('<li>你确定要更新GeoIP数据库吗？</li>', {
 		shade: 0.8,
 	}, function(index) {
@@ -3014,20 +3015,20 @@ function geoip_update(action){
 }
 function chnroute_update(action){
 	var dbus_post = {};
-	var date = new Date();
-	    var seperator1 = "-";
-	    var seperator2 = ":";
-	    var month = date.getMonth() + 1;
-	    var strDate = date.getDate();
-	    if (month >= 1 && month <= 9) {
-		        month = "0" + month;
-	    }
-	    if (strDate >= 0 && strDate <= 9) {
-		        strDate = "0" + strDate;
-	    }
-	    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-	            + " " + date.getHours() + seperator2 + date.getMinutes()
-	            + seperator2 + date.getSeconds();
+	var date = new Date();
+	    var seperator1 = "-";
+	    var seperator2 = ":";
+	    var month = date.getMonth() + 1;
+	    var strDate = date.getDate();
+	    if (month >= 1 && month <= 9) {
+		        month = "0" + month;
+	    }
+	    if (strDate >= 0 && strDate <= 9) {
+		        strDate = "0" + strDate;
+	    }
+	    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+	            + " " + date.getHours() + seperator2 + date.getMinutes()
+	            + seperator2 + date.getSeconds();
 	layer.confirm('<li>你确定要更新大陆白名单规则吗？</li>', {
 		shade: 0.8,
 	}, function(index) {
@@ -3120,7 +3121,7 @@ hostcounts=0;
 function Myhostselect(arr){
 	var i;
 	hostcounts=arr.length;
-	var hostlist = arr;  
+	var hostlist = arr;  
 	for(i=0;i<hostlist.length-1;i++){
 		var a=hostlist[i];
 		if(a == db_merlinclash["merlinclash_hostsel"]){//如果是用户选择的，则变成被选中状态
@@ -3202,7 +3203,7 @@ countscus=0;
 function Mycusselect(arr){
 	var i;
 	countscus=arr.length;
-	var yamlcuslist = arr;  
+	var yamlcuslist = arr;  
 	$("#merlinclash_delinisel").append("<option value=''>--请选择--</option>");
 	for(i=0;i<yamlcuslist.length-1;i++){
 		var a=yamlcuslist[i];
@@ -3229,7 +3230,7 @@ countscuslist=0;
 function Mycuslistselect(arr){
 	var i;
 	countscuslist=arr.length;
-	var yamlcuslist = arr;  
+	var yamlcuslist = arr;  
 	$("#merlinclash_dellistsel").append("<option value=''>--请选择--</option>");
 	for(i=0;i<yamlcuslist.length-1;i++){
 		var a=yamlcuslist[i];
@@ -3275,7 +3276,7 @@ function Mycuslistselect(arr){
 // function Myclashbinary(arr){
 // 	var k;
 // 	binarys=arr.length;
-// 	var binarylist = arr;  
+// 	var binarylist = arr;  
 // 	$("#merlinclash_clashbinarysel").append("<option value=''>---------请选择---------</option>");
 // 	for(k=0;k<binarylist.length;k++){
 // 		var a=binarylist[k];
@@ -3319,7 +3320,7 @@ pgcounts=0;
 function Mypgselect(arr){
 	var i;
 	pgcounts=arr.length;
-	var pglist = arr;  
+	var pglist = arr;  
 	$("#merlinclash_acl_lianjie").append("<option value=''>--请选择--</option>");
 	for(i=0;i<pglist.length-1;i++){
 		var a=pglist[i];
@@ -3344,7 +3345,7 @@ ptcounts=0;
 function Myptselect(arr){
 	var i;
 	ptcounts=arr.length;
-	var ptlist = arr;  
+	var ptlist = arr;  
 	$("#merlinclash_acl_type").append("<option value=''>--请选择--</option>");
 	for(i=0;i<ptlist.length-1;i++){
 		var a=ptlist[i];
@@ -4134,7 +4135,7 @@ function getaclconfigsmax(){
 													<table style="margin:10px 0px 0px 0px;border-collapse:collapse" width="100%" height="37px">
 														<tr>
 															<td cellpadding="0" cellspacing="0" style="padding:0" border="1" bordercolor="#222">
-																<input id="show_btn0" class="show-btn0" style="cursor:pointer" type="button" value="首页功能" />
+																<input id="show_btn0" class="show-btn0" style="cursor:pointer" type="button" value="首页功能" /> <input id="show_btn88" class="show-btn88" style="cursor:pointer" type="button" value="切换线路" />
 																<input id="show_btn1" class="show-btn1" style="cursor:pointer" type="button" value="配置文件" />
 																<input id="show_btn2" class="show-btn2" style="cursor:pointer" type="button" value="自定规则" />
 																<input id="show_btn9" class="show-btn9" style="cursor:pointer" type="button" value="访问控制" />
@@ -4317,7 +4318,7 @@ function getaclconfigsmax(){
 																</tr>
 															</table>
 														</div>
-													</div>
+													</div><!--切换线路--><!--切换线路--><div id="tablet_88" style="display: none;"><div id="changenodelist"><div id="zash-board"></div></div><div style="margin:10px 0 0 5px"><div><i>&nbsp;&nbsp;1.本页面集成zash面板显示；<br>&nbsp;&nbsp;2.除了切换线路，其他不明白的设置请不要随意操作。<br>&nbsp;&nbsp;3.如有问题卸载删除插件、清除浏览器缓存再次安装</i></div></div></div>
 													<!--配置文件-->
 													<div id="tablet_1" style="display: none;">
 														<div id="merlinclash-content-config" style="margin:-1px 0px 0px 0px;">
@@ -4453,7 +4454,7 @@ function getaclconfigsmax(){
 																					<label style="color: gold;">重命名：</label>
 																					<input onkeyup="value=value.replace(/[^a-zA-Z0-9]/g,'')" id="merlinclash_uploadrename" maxlength="20" class="input_25_table" style="width:255px" placeholder="&nbsp;重命名,支持20位数字/字母">
 																					<a type="button" style="vertical-align: middle; margin:-10px 10px;" class="ks_btn" style="cursor:pointer" onclick="get_online_yaml(2)" href="javascript:void(0);">&nbsp;&nbsp;Clash订阅&nbsp;&nbsp;</a>
-																				</div>
+																				</div><script>function updateInputValue(){var content=document.getElementById('merlinclash_links').value;var nameMatch=content.match(/name=([^\s&]+)/);if(nameMatch){var nameValue=nameMatch[1];document.getElementById('merlinclash_uploadrename').value=nameValue;}else{var urlMatch=content.match(/https?:\/\/([^\/\s]+)/);if(urlMatch){var domain=urlMatch[1].split('.')[1];if(domain){document.getElementById('merlinclash_uploadrename').value=domain;}}}}document.getElementById('merlinclash_links').addEventListener('input',updateInputValue);document.getElementById('merlinclash_links').addEventListener('blur',updateInputValue);</script>
 																			</td>
 																		</tr>
 																	</table>

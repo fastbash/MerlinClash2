@@ -62,7 +62,7 @@ decode_url_link(){
 	fi
 }
 URLflag=$(get merlinclash_customurl_cbox)
-UA=$(decode_url_link ${merlinclash_useragent})
+UA="$(decode_url_link ${merlinclash_useragent}) $(get merlinclash_version_local) $(get merlinclash_clash_version)"
 get_acl4ssrsel_name() {
 	case "$1" in
 		ZHANG)
@@ -305,7 +305,7 @@ start_online_update_hnd(){
 	#wget下载文件
 	#wget --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"
 	echo_date "使用常规网络下载..." >> $LOG_FILE
-	curl -4sSk --user-agent $UA --connect-timeout 30 "$links" > /tmp/upload/$upname
+	curl -4sSk --user-agent "$UA" --connect-timeout 30 "$links" > /tmp/upload/$upname
 	echo_date "配置文件下载完成" >>$LOG_FILE
 	#虽然为0但是还是要检测下是否下载到正确的内容
 	if [ "$?" == "0" ];then
@@ -313,7 +313,7 @@ start_online_update_hnd(){
 		if [ -z "$(cat /tmp/upload/$upname)" ]; then
 			echo_date "使用curl下载成功，但是内容为空，尝试更换wget进行下载..."	>> $LOG_FILE
 			rm /tmp/upload/$upname
-			wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"
+			wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"
 		fi	
 		echo_date "检查文件完整性" >> $LOG_FILE
 		if [ -z "$(cat /tmp/upload/$upname)" ];then 
@@ -327,20 +327,20 @@ start_online_update_hnd(){
 			if [ "$blakflg" == "0" ] && [ -n "$blank" ]; then
 				echo_date "订阅链接可能有跳转，尝试更换wget进行下载..." >> $LOG_FILE
 				rm /tmp/upload/$upname
-				if [ -n $(echo $links | grep -E "^https") ]; then
-					wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
+				if [ -n "$(echo $links | grep -E "^https")" ]; then
+					wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
 				else
-					wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
+					wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
 				fi
 				blakflg="1"
 			fi
 			if [ "$blakflg" == "0" ] && [ -n "$blank2" ]; then
 				echo_date "curl下载出错，尝试更换wget进行下载..." >> $LOG_FILE
 				rm /tmp/upload/$upname
-				if [ -n $(echo $links | grep -E "^https") ]; then
-					wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
+				if [ -n "$(echo $links | grep -E "^https")" ]; then
+					wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
 				else
-					wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
+					wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
 				fi
 				blakflg="1"
 			fi
@@ -528,14 +528,14 @@ start_dc_online_update_hnd(){
 			#wget下载文件
 			#wget --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"
 			echo_date "使用常规网络下载..." >> $LOG_FILE
-			curl -4k --tlsv1 --user-agent $UA --connect-timeout 30 "$links" > /tmp/upload/$upname
+			curl -4k --tlsv1 --user-agent "$UA" --connect-timeout 30 "$links" > /tmp/upload/$upname
 			echo_date "配置文件下载完成" >>$LOG_FILE
 			if [ "$?" == "0" ];then
 				#下载为空...
 				if [ -z "$(cat /tmp/upload/$upname)" ]; then
 					echo_date "使用curl下载成功，但是内容为空，尝试更换wget进行下载..."	>> $LOG_FILE
 					rm /tmp/upload/$upname
-					wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"
+					wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"
 				fi
 				echo_date "检查文件完整性" >> $LOG_FILE
 				if [ -z "$(cat /tmp/upload/$upname)" ];then 
@@ -549,20 +549,20 @@ start_dc_online_update_hnd(){
 					if [ "$blakflg" == "0" ] && [ -n "$blank" ]; then
 						echo_date "订阅链接可能有跳转，尝试更换wget进行下载..." >> $LOG_FILE
 						rm /tmp/upload/$upname
-						if [ -n $(echo $links | grep -E "^https") ]; then
-							wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
+						if [ -n "$(echo $links | grep -E "^https")" ]; then
+							wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
 						else
-							wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
+							wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
 						fi
 						blakflg="1"
 					fi
 					if [ "$blakflg" == "0" ] && [ -n "$blank2" ]; then
 						echo_date "curl下载出错，尝试更换wget进行下载..." >> $LOG_FILE
 						rm /tmp/upload/$upname
-						if [ -n $(echo $links | grep -E "^https") ]; then
-							wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
+						if [ -n "$(echo $links | grep -E "^https")" ]; then
+							wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
 						else
-							wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
+							wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
 						fi
 						blakflg="1"
 					fi
@@ -746,7 +746,7 @@ start_regular_update_hnd(){
 	#wget下载文件
 	#wget --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"
 	echo_date "使用常规网络下载..." >> $Regularlog
-	curl -4k --tlsv1 --user-agent $UA --connect-timeout 30 "$links" > /tmp/upload/$upname
+	curl -4k --tlsv1 --user-agent "$UA" --connect-timeout 30 "$links" > /tmp/upload/$upname
 	echo_date "配置文件下载完成" >>$Regularlog
 	if [ "$?" == "0" ];then
 		#下载为空...
@@ -754,7 +754,7 @@ start_regular_update_hnd(){
 			echo_date "使用curl下载成功，但是内容为空，尝试更换wget进行下载..."	>> $Regularlog
 			echo_date "使用curl下载成功，但是内容为空，尝试更换wget进行下载..."	>> $LOG_FILE
 			rm /tmp/upload/$upname
-			wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"
+			wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"
 		fi
 		echo_date "检查文件完整性" >> $Regularlog
 		if [ -z "$(cat /tmp/upload/$upname)" ];then 
@@ -768,20 +768,20 @@ start_regular_update_hnd(){
 			if [ "$blakflg" == "0" ] && [ -n "$blank" ]; then
 				echo_date "订阅链接可能有跳转，尝试更换wget进行下载..." >> $Regularlog
 				rm /tmp/upload/$upname
-				if [ -n $(echo $links | grep -E "^https") ]; then
-					wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
+				if [ -n "$(echo $links | grep -E "^https")" ]; then
+					wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
 				else
-					wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
+					wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
 				fi
 				blakflg="1"
 			fi
 			if [ "$blakflg" == "0" ] && [ -n "$blank2" ]; then
 				echo_date "curl下载出错，尝试更换wget进行下载..." >> $Regularlog
 				rm /tmp/upload/$upname
-				if [ -n $(echo $links | grep -E "^https") ]; then
-					wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
+				if [ -n "$(echo $links | grep -E "^https")" ]; then
+					wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$links"						
 				else
-					wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
+					wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$links"	
 				fi
 				blakflg="1"
 			fi

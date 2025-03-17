@@ -62,7 +62,7 @@ input[type=checkbox]{
 	margin-left: 50px;
 	top: 320px;
 	width:650px;
-	return height:auto;
+	height:auto;
 	box-shadow: 3px 3px 10px #000;
 	display:none;
 }
@@ -77,7 +77,7 @@ input[type=checkbox]{
 	margin-left: -215px;
 	top: 240px;
 	width:980px;
-	return height:auto;
+	height:auto;
 	box-shadow: 3px 3px 10px #000;
 	background: rgba(0,0,0,0.85);
 	display:none;
@@ -91,7 +91,7 @@ input[type=checkbox]{
 	margin-left: -215px;
 	top: 240px;
 	width:980px;
-	return height:auto;
+	height:auto;
 	box-shadow: 3px 3px 10px #000;
 	background: rgba(0,0,0,0.85);
 	display:none;
@@ -205,7 +205,7 @@ input[type=checkbox]{
 	border: 1px solid #2f3a3e;
 	background: #2f3a3e;
 }
-#app[skin=ASUSWRT] #tablet_0, #app[skin=ASUSWRT] #tablet_88, #app[skin=ASUSWRT] #tablet_2, #app[skin=ASUSWRT] #tablet_3, #app[skin=ASUSWRT] #tablet_4, #app[skin=ASUSWRT] #tablet_5, #app[skin=ASUSWRT] #tablet_6, #app[skin=ASUSWRT] #tablet_7, #app[skin=ASUSWRT] #tablet_8, #app[skin=ASUSWRT] #tablet_9, {
+#app[skin=ASUSWRT] #tablet_0, #app[skin=ASUSWRT] #tablet_88, #app[skin=ASUSWRT] #tablet_2, #app[skin=ASUSWRT] #tablet_3, #app[skin=ASUSWRT] #tablet_4, #app[skin=ASUSWRT] #tablet_5, #app[skin=ASUSWRT] #tablet_6, #app[skin=ASUSWRT] #tablet_7, #app[skin=ASUSWRT] #tablet_8, #app[skin=ASUSWRT] #tablet_9 {
 	margin:-1px 0px 0px 0px;
 	border:none;
 }
@@ -278,7 +278,7 @@ input[type=checkbox]{
 	border: 1px solid #91071f;
 	background: #91071f;
 }
-#app[skin=ROG] #tablet_0, #app[skin=ROG] #tablet_88, #app[skin=ROG] #tablet_2, #app[skin=ROG] #tablet_3, #app[skin=ROG] #tablet_4, #app[skin=ROG] #tablet_5, #app[skin=ROG] #tablet_6, #app[skin=ROG] #tablet_7, #app[skin=ROG] #tablet_8, #app[skin=ROG] #tablet_9, {
+#app[skin=ROG] #tablet_0, #app[skin=ROG] #tablet_88, #app[skin=ROG] #tablet_2, #app[skin=ROG] #tablet_3, #app[skin=ROG] #tablet_4, #app[skin=ROG] #tablet_5, #app[skin=ROG] #tablet_6, #app[skin=ROG] #tablet_7, #app[skin=ROG] #tablet_8, #app[skin=ROG] #tablet_9 {
 	margin:-1px 0px 0px 0px;
 	border:1px solid #91071f;
 }
@@ -349,7 +349,7 @@ input[type=checkbox]{
 	border: 1px solid #92650F;
 	background: #92650F;
 }
-#app[skin=TUF] #tablet_0, #app[skin=TUF] #tablet_88, #app[skin=TUF] #tablet_2, #app[skin=TUF] #tablet_3, #app[skin=TUF] #tablet_4, #app[skin=TUF] #tablet_5, #app[skin=TUF] #tablet_6, #app[skin=TUF] #tablet_7, #app[skin=TUF] #tablet_8, #app[skin=TUF] #tablet_9, {
+#app[skin=TUF] #tablet_0, #app[skin=TUF] #tablet_88, #app[skin=TUF] #tablet_2, #app[skin=TUF] #tablet_3, #app[skin=TUF] #tablet_4, #app[skin=TUF] #tablet_5, #app[skin=TUF] #tablet_6, #app[skin=TUF] #tablet_7, #app[skin=TUF] #tablet_8, #app[skin=TUF] #tablet_9 {
 	margin:-1px 0px 0px 0px;
 	border:1px solid #92650F;
 }
@@ -420,7 +420,7 @@ input[type=checkbox]{
 	border: 1px solid #2ed9c3;
 	background: #2ed9c3;
 }
-#app[skin=TS] #tablet_0, #app[skin=TS] #tablet_88, #app[skin=TS] #tablet_2, #app[skin=TS] #tablet_3, #app[skin=TS] #tablet_4, #app[skin=TS] #tablet_5, #app[skin=TS] #tablet_6, #app[skin=TS] #tablet_7, #app[skin=TS] #tablet_8, #app[skin=TS] #tablet_9, {
+#app[skin=TS] #tablet_0, #app[skin=TS] #tablet_88, #app[skin=TS] #tablet_2, #app[skin=TS] #tablet_3, #app[skin=TS] #tablet_4, #app[skin=TS] #tablet_5, #app[skin=TS] #tablet_6, #app[skin=TS] #tablet_7, #app[skin=TS] #tablet_8, #app[skin=TS] #tablet_9 {
 	margin:-1px 0px 0px 0px;
 	border:1px solid #2ed9c3;
 }

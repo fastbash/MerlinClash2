@@ -380,7 +380,7 @@ install_now(){
 
 	echo_date "数据初始化"
 	dbus_nset merlinclash_mixport_enable "0"
-	dbus_nset merlinclash_useragent "YXN1cy1jbGFzaA=="
+	dbus_nset merlinclash_useragent "Y2xhc2gK"
 	dbus set merlinclash_scrule_version="2025030201"
 	dbus_nset merlinclash_check_delay_time "40"
 	dbus_nset merlinclash_dnsedit_tag "redirhost"

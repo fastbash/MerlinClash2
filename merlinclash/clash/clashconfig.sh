@@ -42,7 +42,7 @@ secret=$(cat $yamlpath | awk '/secret:/{print $2}'  | xargs echo -n)
 #20200904 新增host.yaml处理
 hostsel=$(get merlinclash_hostsel)
 hostsyaml=/koolshare/merlinclash/yaml_basic/host/$hostsel.yaml
-tproxy=$(cat $yamlpath | awk '/tproxy:/{print $2}'  | xargs echo -n)
+tproxy=$(cat $yamlpath | awk '/tproxy:/{print $2}' | xargs echo -n)
 #端口取值
 	httpport=$(cat $yamlpath | awk -F: '/^port/{print $2}' | xargs echo -n)
 	socksport=$(cat $yamlpath | awk -F: '/^socks-port/{print $2}' | xargs echo -n)
@@ -1872,12 +1872,12 @@ start_host(){
 	
 	#用yq处理router.asus.com的值 修改router.asus.com ip地址为当前路由lanip
 	echo_date "当前选中host文件为：$hostsel.yaml" >> $LOG_FILE
-# 	router_tmp=$(yq r /koolshare/merlinclash/yaml_basic/host/$hostsel.yaml hosts.[router.asus.com])
-# 	echo_date "router.asus.com值:$router_tmp" >> $LOG_FILE
-# 	if [ -n "$router_tmp" ] && [ "$router_tmp" != "$lan_ipaddr" ]; then
-# 		echo_date "修正router.asus.com值为路由LANIP" >> $LOG_FILE
-# 		yq w -i $hostsyaml "hosts.[router.asus.com]" $lan_ipaddr
-# 	fi
+	# router_tmp=$(yq r /koolshare/merlinclash/yaml_basic/host/$hostsel.yaml hosts.[router.asus.com])
+	# echo_date "router.asus.com值:$router_tmp" >> $LOG_FILE
+	# if [ -n "$router_tmp" ] && [ "$router_tmp" != "$lan_ipaddr" ]; then
+	# 	echo_date "修正router.asus.com值为路由LANIP" >> $LOG_FILE
+	# 	yq w -i $hostsyaml "hosts.[router.asus.com]" $lan_ipaddr
+	# fi
 	rm -rf /tmp/upload/$hostsel.txt
 	[ ! -L "/tmp/upload/$hostsel.txt" ] && ln -sf $hostsyaml /tmp/upload/$hostsel.txt
 
@@ -2153,7 +2153,7 @@ creat_router_ipset(){
 	# sh /koolshare/scripts/clash_ipsetproxyarroundchange.sh kp kp
 	echo_date " " >> $LOG_FILE
 	dgc=$(/koolshare/bin/clash -v | awk -F"go" '{print $2}'| awk -F" " '{print $1}')
-	if [ "$((dgc * 100))" -lt "118" ]; then # "$dgc" -lt "1.18"
+	if [ "$(printf "$dgc\n1.18" | sort -u | head -n1)" != "1.18" ]; then # "$dgc" -lt "1.18"
 		echo_date "clash二进制版本过低，不符合路由自身代理访问要求，请更新Clash二进制至最新" >> $LOG_FILE
 		dbus set merlinclash_dnsgoclash="0"
 		dnsgoclash=$(get merlinclash_dnsgoclash)
@@ -4392,13 +4392,13 @@ start_clash(){
 	count=$(($count2-$count1-1))
 	sed -i "1i 当前配置为：【$yamlname】，节点数为：$count个，DNS方案为：$(get_dns_plan $dnsplan)" /tmp/upload/view.txt
 	echo_date "启动Clash程序" >> $LOG_FILE
-#
-# 启动clash，看看是不是需要用Perp守护进程
-#
+
+	# 启动clash，看看是不是需要用Perp守护进程
+
 	startClashNormalOrPerp
-#
-# 结束
-#
+
+	# 结束
+
 	if [ ! $retryTimes ] || [ $retryTimes -lt 20 ];then
 		retryTimes=40
 		dbus set merlinclash_check_delay_time=40

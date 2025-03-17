@@ -59,7 +59,25 @@ decode_url_link(){
 	fi
 }
 
-UA=$(decode_url_link ${merlinclash_useragent})
+UA="$(decode_url_link ${merlinclash_useragent}) $(get softcenter_module_merlinclash_title) $(get merlinclash_version_local) $(get merlinclash_clash_version)"
+
+after_update(){
+	if [ -z "$(dbus get merlinclash_yamlsel)" ] && [ -n "$(cat /koolshare/merlinclash/yaml_bak/yamls.txt)" ];then
+		dbus set merlinclash_yamlsel=$(grep -v '^$' /koolshare/merlinclash/yaml_bak/yamls.txt | head -n1)
+	fi
+	if ! dbus listall | grep -q merlinclash_select_regular;then
+		#打开自动订阅
+		dbus set merlinclash_select_regular_day=1
+		dbus set merlinclash_select_regular_hour=5
+		dbus set merlinclash_select_regular_minute=0
+		dbus set merlinclash_select_regular_minute_2=2
+		dbus set merlinclash_select_regular_subscribe=2
+		dbus set merlinclash_select_regular_week=1
+	fi
+	if ! cru l | grep -q regular_subscribe;then
+		cru a regular_subscribe "0 5 * * * /bin/sh /koolshare/scripts/clash_regular_update.sh"
+	fi
+}
 
 start_online_update(){
 	updateflag="start_online_update"
@@ -87,7 +105,7 @@ start_online_update(){
 		#wget下载文件
 		#wget --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
 		echo_date "使用常规网络下载..." >> $LOG_FILE
-		curl --user-agent $UA -4sSk --connect-timeout 20 $merlinc_link > /tmp/upload/$upname
+		curl --user-agent "$UA" -4sSk --connect-timeout 20 $merlinc_link > /tmp/upload/$upname
 		echo_date "配置文件下载完成" >>$LOG_FILE
 		#虽然为0但是还是要检测下是否下载到正确的内容
 		if [ "$?" == "0" ];then
@@ -96,12 +114,12 @@ start_online_update(){
 				#echo_date "下载内容为空..."
 				echo_date "使用curl下载成功，但是内容为空，尝试更换wget进行下载..."	>> $LOG_FILE
 				rm /tmp/upload/$upname
-				if [ -n $(echo $merlinc_link | grep -E "^https") ]; then
+				if [ -n "$(echo $merlinc_link | grep -E "^https")" ]; then
 					#wget --no-check-certificate --timeout=15 -qO /tmp/upload/$upname $merlinc_link
-					wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
+					wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
 				else
 					#wget --timeout=15 -qO /tmp/upload/$upname $merlinc_link	
-					wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
+					wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
 				fi
 			else	
 				#订阅地址有跳转
@@ -109,12 +127,12 @@ start_online_update(){
 				if [ -n "$blank" ]; then
 					echo_date "订阅链接可能有跳转，尝试更换wget进行下载..." >> $LOG_FILE
 					rm /tmp/upload/$upname
-					if [ -n $(echo $merlinc_link | grep -E "^https") ]; then
+					if [ -n "$(echo $merlinc_link | grep -E "^https")" ]; then
 						#wget --no-check-certificate --timeout=15 -qO /tmp/upload/$upname $merlinc_link
-						wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
+						wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
 					else
 						#wget --timeout=15 -qO /tmp/upload/$upname $merlinc_link	
-						wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
+						wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
 					fi
 				fi
 			fi
@@ -125,10 +143,10 @@ start_online_update(){
 		else
 			echo_date "使用curl下载订阅失败，尝试更换wget进行下载..." >> $LOG_FILE
 			rm /tmp/upload/$upname
-			if [ -n $(echo $merlinc_link | grep -E "^https") ]; then
-				wget --user-agent=$UA --no-check-certificate --timeout=15 -qO /tmp/upload/$upname $merlinc_link
+			if [ -n "$(echo $merlinc_link | grep -E "^https")" ]; then
+				wget --user-agent="$UA" --no-check-certificate --timeout=15 -qO /tmp/upload/$upname $merlinc_link
 			else
-				wget --user-agent=$UA --timeout=15 -qO /tmp/upload/$upname $merlinc_link	
+				wget --user-agent="$UA" --timeout=15 -qO /tmp/upload/$upname $merlinc_link	
 			fi
 
 			if [ "$?" == "0" ]; then
@@ -153,8 +171,8 @@ start_online_update(){
 			#20200803写入字典
 			echo_date "开始创建字典" >> $LOG_FILE
 			write_dictionary
-			echo_date "字典创建完成" >> $LOG_FILE	
-			echo_date "订阅完成" >> $LOG_FILE				
+			echo_date "字典创建完成" >> $LOG_FILE
+			echo_date "订阅完成" >> $LOG_FILE; after_update
 		else
 			echo_date "yaml文件格式不合法" >> $LOG_FILE
 		fi		
@@ -174,7 +192,7 @@ start_regular_update(){
 	subscription_type="1"
 	#wget --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
 	echo_date "使用常规网络下载..." >> $Regularlog
-	curl --user-agent $UA -4sSk --connect-timeout 20 $merlinc_link > /tmp/upload/$upname
+	curl --user-agent "$UA" -4sSk --connect-timeout 20 $merlinc_link > /tmp/upload/$upname
 	echo_date "订阅下载完成" >> $Regularlog
 	#虽然为0但是还是要检测下是否下载到正确的内容
 	if [ "$?" == "0" ];then
@@ -183,12 +201,12 @@ start_regular_update(){
 			#echo_date "下载内容为空..."
 			echo_date "使用curl下载成功，但是内容为空，尝试更换wget进行下载..."	>> $Regularlog
 			rm /tmp/upload/$upname
-			if [ -n $(echo $merlinc_link | grep -E "^https") ]; then
+			if [ -n "$(echo $merlinc_link | grep -E "^https")" ]; then
 				#wget --no-check-certificate --timeout=15 -qO /tmp/upload/$upname $merlinc_link
-				wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"	
+				wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"	
 			else
 				#wget --timeout=15 -qO /tmp/upload/$upname $merlinc_link	
-				wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
+				wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
 			fi
 		else	
 			#订阅地址有跳转
@@ -196,12 +214,12 @@ start_regular_update(){
 			if [ -n "$blank" ]; then
 				echo_date "订阅链接可能有跳转，尝试更换wget进行下载..." >> $Regularlog
 				rm /tmp/upload/$upname
-				if [ -n $(echo $merlinc_link | grep -E "^https") ]; then
+				if [ -n "$(echo $merlinc_link | grep -E "^https")" ]; then
 					#wget --no-check-certificate --timeout=15 -qO /tmp/upload/$upname $merlinc_link
-					wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"	
+					wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"	
 				else
 					#wget --timeout=15 -qO /tmp/upload/$upname $merlinc_link	
-					wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
+					wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
 				fi
 			fi
 		fi
@@ -212,12 +230,12 @@ start_regular_update(){
 	else
 		echo_date "使用curl下载订阅失败，尝试更换wget进行下载..." >> $Regularlog
 		rm /tmp/upload/$upname
-		if [ -n $(echo $merlinc_link | grep -E "^https") ]; then
+		if [ -n "$(echo $merlinc_link | grep -E "^https")" ]; then
 			#wget --no-check-certificate --timeout=15 -qO /tmp/upload/$upname $merlinc_link
-			wget --user-agent=$UA --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"	
+			wget --user-agent="$UA" --no-check-certificate -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"	
 		else
 			#wget --timeout=15 -qO /tmp/upload/$upname $merlinc_link	
-			wget --user-agent=$UA -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
+			wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
 		fi
 		if [ "$?" == "0" ]; then
 			#下载为空...
@@ -240,7 +258,7 @@ start_regular_update(){
 		sh /koolshare/scripts/clash_yaml_sub.sh #>/dev/null 2>&1 &
 		#20200803写入字典
 		#write_dictionary	
-		echo_date "订阅完成" >> $Regularlog				
+		echo_date "订阅完成" >> $Regularlog; after_update		
 	else
 		echo_date "yaml文件格式不合法" >> $Regularlog
 	fi

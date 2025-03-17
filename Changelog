@@ -1,7 +1,12 @@
+MerlinClash2 v0.3.2
+- Match renaming content when setting up subscription downloads;
+- Open the daily subscription after setting the subscription download successfully;
+- Display the zash panel directly;
+
 MerlinClash2 v0.3.1
-1. Submit the code to github
-2. Remove ads
-3. Create build.sh
+- Submit the code to github
+- Remove ads
+- Create build.sh
 
 MerlinClash2 v0.3
 1.修复一个可能导致页面崩溃的bug;
