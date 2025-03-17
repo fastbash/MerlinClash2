@@ -1,0 +1,19 @@
+dns:
+  enable: true
+  ipv6: false
+  listen: :23453
+  enhanced-mode: redir-host
+  prefer-h3: true
+  respect-rules: true
+  proxy-server-nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  nameserver-policy:
+    "+.steampowered.com": "223.5.5.5"
+    "geosite:cn": 
+      - https://doh.pub/dns-query
+      - 223.5.5.5
+  nameserver:
+    - https://public.dns.iij.jp/dns-query
+    - tcp://208.67.222.222:443
+    - tls://dns.google

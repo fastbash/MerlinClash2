@@ -1,0 +1,26 @@
+MerlinClash2 v0.3.1
+1. Submit the code to github
+2. Remove ads
+3. Create build.sh
+
+MerlinClash2 v0.3
+1.修复一个可能导致页面崩溃的bug;
+2.微调DNS配置；
+3.支持旧版本未关闭，直接升级；
+4.其他小问题。
+
+Merlin Clash 2
+1.移除大量陈旧不用代码/脚本文件；
+2.增加最新两款高通机型支持;
+3.修复启动失败后未还原dnsmasq配置的bug(已存在至少2年，一直没人发现😂)；
+4.只保留Zash面板;
+5.内置100k的geosite.dat文件，redirhost默认使用rhbypass方案，移除原本rhbypass模块;
+6.调整各种数据库更新逻辑，优先使用CDN;
+7.移除小白一键订阅(和subc的mc默认规则一样)
+8.调整一些模块名称(比如 黑白郎君→访问控制);
+9.安装默认判定是否需要开启大陆ip绕行/队列请求;
+10.移除一些无用功能;
+11.更新内核至mihomo 1.19.3
+12.更新zash面板/大陆ip数据库/geoip数据库。
+13.移除ax56v2/ax57精简支持(因为内核变大，精简了也放不下)
+14.其他不记得了的修改……
