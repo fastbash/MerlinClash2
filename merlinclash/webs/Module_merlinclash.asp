@@ -974,7 +974,7 @@ function get_clash_status_front() {
 						zashHref   = "http://"+ location.hostname + ":" +arr[3]+ "/ui/zashboard/#/setup?hostname=" + location.hostname + "&port=" + arr[3] + "&secret=" + arr[16];
 					}
 					document.getElementById("show_btn88").style.display="";
-					$("#zash").html("<a type='button' style='vertical-align: middle; cursor:pointer;' class='ks_btn' href='" + zashHref + "' target='_blank' >访问 ZashBoard-Clash 面板</a>");$("#zash-board").html("<iframe id='zash-frame' style='width:100%;min-height:70vh;border:0;' src='"+zashHref+"'></iframe>");
+					$("#zash").html("<a type='button' style='vertical-align: middle; cursor:pointer;' class='ks_btn' href='" + zashHref + "' target='_blank' >访问 ZashBoard-Clash 面板</a>");$("#zash-board").html("<iframe id='zash-frame' style='width:100%;min-height:45rem;border:0;margin-top:1px;' src='"+zashHref+"'></iframe>");
 
 				E("clash_yamlsel").innerHTML = arr[14];
 				}
