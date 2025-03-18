@@ -291,11 +291,11 @@ function get_dbus_data() {
 				document.getElementById("tproxy_showcbox").style.display=""
 				document.getElementById("subc_show").style.display=""
 			}
-			if(db_merlinclash["merlinclash_check_dlercloud"] == "1"){
-				document.getElementById("show_btn10").style.display=""
-			}else{
+			// if(db_merlinclash["merlinclash_check_dlercloud"] == "1"){
+			// 	document.getElementById("show_btn10").style.display=""
+			// }else{
 				document.getElementById("show_btn10").style.display="none"
-			}
+			// }
 			if(db_merlinclash["merlinclash_mixport_enable"] == "1"){
 				document.getElementById("ip_state").style.display=""
 			}else{
@@ -5275,8 +5275,8 @@ function getaclconfigsmax(){
 																		</div>
 																	</label>
 																</div>
-																<div style="display:table-cell;float: left;text-align: center;text-align: center;line-height: 30px;">【DlerCloud登陆】</div>
-																<div class="switch_field" style="display:table-cell;float: left;">
+																<div style="display: none !important;display:table-cell;float: left;text-align: center;text-align: center;line-height: 30px;">【DlerCloud登陆】</div>
+																<div class="switch_field" style="display: none !important;display:table-cell;float: left;">
 																	<label for="merlinclash_check_dlercloud">
 																		<input id="merlinclash_check_dlercloud" class="switch" type="checkbox" style="display: none;" name="dlercloud_check" onchange="functioncheck('merlinclash_check_dlercloud')">
 																		<div class="switch_container" >
