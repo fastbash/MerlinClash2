@@ -4654,6 +4654,13 @@ check_dnsplan(){
 		local yamlTmpName="redirhost.yaml"
 		#默认方案
 		echo_date "使用DNS方案为：Redir-Host" >> $LOG_FILE
+		localDNS=""
+		for _wan_dns in $(nvram get wan_dns);do
+			localDNS="${localDNS}    - ${_wan_dns}\n"
+		done
+		if [ -n "$localDNS" ];then
+			sed -i "s#    - 223.5.5.5#${localDNS}#g" /koolshare/merlinclash/yaml_dns/redirhost.yaml
+		fi
 		cat /koolshare/merlinclash/yaml_dns/$yamlTmpName >> $yamlpath
 		;;
 	fi)

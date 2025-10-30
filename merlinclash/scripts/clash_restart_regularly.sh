@@ -38,10 +38,10 @@ start_clash_restart_regularly_month(){
 }
 start_clash_restart_regularly_mhour(){
 	remove_clash_restart_regularly
-	if [ "$mscrm_2" == "2" ] || [ "$mscrm_2" == "5" ] || [ "$mscrm_2" == "10" ] || [ "$mscrm_2" == "15" ] || [ "$mscrm_2" == "20" ] || [ "$mscrm_2" == "25" ] || [ "$mscrm_2" == "30" ]; then
+	if [ "$mscrm_2" = "2" ] || [ "$mscrm_2" = "5" ] || [ "$mscrm_2" = "10" ] || [ "$mscrm_2" = "15" ] || [ "$mscrm_2" = "20" ] || [ "$mscrm_2" = "25" ] || [ "$mscrm_2" = "30" ]; then
 		cru a clash_restart "*/"${mscrm_2}" * * * * /bin/sh /koolshare/scripts/clash_restart_update.sh"
 	fi
-	if [ "$mscrm_2" == "1" ] || [ "$mscrm_2" == "3" ] || [ "$mscrm_2" == "6" ] || [ "$mscrm_2" == "12" ]; then
+	if [ "$mscrm_2" = "1" ] || [ "$mscrm_2" = "3" ] || [ "$mscrm_2" = "6" ] || [ "$mscrm_2" = "12" ]; then
 		cru a clash_restart "0 */"${mscrm_2} "* * * /bin/sh /koolshare/scripts/clash_restart_update.sh"
 	fi
 }

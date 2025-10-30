@@ -32,10 +32,10 @@ start)
     prepare
     sed -i '$a no-resolv' /etc/dnsmasq.conf
     sed -i '$a servers-file=/tmp/resolv.dnsmasq' /etc/dnsmasq.conf
-    if [ "$mcenable" == "1" ];then
+    if [ "$mcenable" = "1" ];then
     	sleepset=$(get merlinclash_auto_delay_cbox)
 		logger "[软件中心-开机自启]: MerlinClash自启推迟状态:$sleepset"
-		if [ "$sleepset" == "1" ]; then		
+		if [ "$sleepset" = "1" ]; then		
 			sleeptime=$(get merlinclash_auto_delay_time)
 			logger "[软件中心-开机自启]: MerlinClash自启推迟:$sleeptime秒！"
 			sleep ${sleeptime}s
@@ -52,11 +52,11 @@ start_nat)
 	logger "[软件中心-NAT重启]: IPTABLES发生变化，Merlin Clash NAT重启！"
 	echo_date "[软件中心-NAT重启]: IPTABLES发生变化，Merlin Clash NAT重启！" >> $LOG_FILE
 	echo_date "[软件中心-NAT重启]: MerlinClash开关状态为：【$mcenable】" >> $LOG_FILE
-	if [ ! -n "$mcenable" ]; then	
+	if [ -z "$mcenable" ]; then	
 		logger "[软件中心-NAT重启]: MerlinClash开关状态获取失败，强制退出！"
 		exit 1
 	fi
-	if [ "$mcenable" == "1" -a "$(pidof clash)" -a "$(netstat -anp | grep clash | head -n 5)" -a ! -n "$(grep "Parse config error" /tmp/clash_run.log)" ]; then	
+	if [ "$mcenable" = "1" ] && [ -n "$(pidof clash)" ] && [ -n "$(netstat -anp | grep clash | head -n 5)" ] && ! grep -q "Parse config error" /tmp/clash_run.log; then
 		logger "[软件中心-NAT重启]: MerlinClash完全启动，开始重写dns配置和iptables"
 		echo_date "[软件中心-NAT重启]: MerlinClash完全启动，开始重写dns配置和iptables" >> $LOG_FILE
 		[ ! -L "/jffs/scripts/dnsmasq.postconf" ] && ln -sf /koolshare/merlinclash/conf/dnsmasq.postconf /jffs/scripts/dnsmasq.postconf && echo_date "创建dnsmasq.postconf软链接" >> $LOG_FILE
@@ -70,7 +70,7 @@ esac
 
 case $2 in
 start)
-	if [ "$mcenable" == "1" ];then
+	if [ "$mcenable" = "1" ];then
 		echo start >> /tmp/upload/merlinclash_log.txt
 		[ ! -L "/jffs/scripts/dnsmasq.postconf" ] && ln -sf /koolshare/merlinclash/conf/dnsmasq.postconf /jffs/scripts/dnsmasq.postconf && echo_date "创建dnsmasq.postconf软链接" >> $LOG_FILE
         sh /koolshare/merlinclash/clashconfig.sh restart >> /tmp/upload/merlinclash_log.txt
@@ -86,7 +86,7 @@ start)
 	echo BBABBBBC >> $SIMLOG_FILE
 	;;
 quicklyrestart)
-	if [ "$mcenable" == "1" ];then
+	if [ "$mcenable" = "1" ];then
 		echo "快速重启" >> /tmp/upload/merlinclash_log.txt
 		[ ! -L "/jffs/scripts/dnsmasq.postconf" ] && ln -sf /koolshare/merlinclash/conf/dnsmasq.postconf /jffs/scripts/dnsmasq.postconf && echo_date "创建dnsmasq.postconf软链接" >> $LOG_FILE
 		sh /koolshare/merlinclash/clashconfig.sh quicklyrestart >> /tmp/upload/merlinclash_log.txt

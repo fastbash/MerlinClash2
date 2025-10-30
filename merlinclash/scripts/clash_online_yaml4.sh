@@ -24,7 +24,7 @@ Regularlog=/tmp/upload/merlinclash_regular.log
 get(){
 	a=$(echo $(dbus get $1))
 	a=$(echo $(dbus get $1))
-	echo $a
+	echo $a | td -d '\r'
 }
 
 b(){
@@ -62,7 +62,7 @@ decode_url_link(){
 	fi
 }
 URLflag=$(get merlinclash_customurl_cbox)
-UA="$(decode_url_link ${merlinclash_useragent}) $(get merlinclash_version_local) $(get merlinclash_clash_version)"
+UA="$(decode_url_link ${merlinclash_useragent}) $(get softcenter_module_merlinclash_title)/$(get merlinclash_version_local) $(get merlinclash_clash_version | sed 's# #/#g') softcenter/$(get softcenter_version)"
 get_acl4ssrsel_name() {
 	case "$1" in
 		ZHANG)

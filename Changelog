@@ -1,3 +1,7 @@
+MerlinClash2 v0.3.3
+- Fix DNS to use the local ISP as the non-proxy DNS;
+- Enable connectivity check by default;
+
 MerlinClash2 v0.3.2
 - Match renaming content when setting up subscription downloads;
 - Open the daily subscription after setting the subscription download successfully;

@@ -813,6 +813,7 @@ function toggle_func() {
 			if(select_count == 0){
 				// clashbinary_select();
 				get_dnsyaml(db_merlinclash["merlinclash_dnsedit_tag"]);
+				console.log(db_merlinclash["merlinclash_dnsedit_tag"]); // debug 2
 				get_host(db_merlinclash["merlinclash_hostsel"]);
 
 			}
@@ -4224,7 +4225,7 @@ function getaclconfigsmax(){
 																		<th><a class="hintstyle" href="javascript:void(0);" onclick="openmcHint(28)">黑名单设备解析服务器</a></th>
 																		<td colspan="2">
 																			<div class="SimpleNote" id="head_illustrate">
-																				<input id="merlinclash_dns_fakeipblack" class="input_15_table" value="223.5.5.5">
+																				<input id="merlinclash_dns_fakeipblack" class="input_15_table" value="<% nvram_get('wan_dns')'; %>">
 																			</div>
 																		</td>
 																	</tr>
@@ -5584,6 +5585,7 @@ function getaclconfigsmax(){
 																	$("[name='dnsplan_edit']").on("change",
 																		function (e) {
 																			var dns_tag=$(e.target).val();
+																			console.log(dns_tag); // debug
 																			get_dnsyaml(dns_tag);
 																		}
 																		);

@@ -147,6 +147,8 @@ platform_test(){
 }
 
 set_skin(){
+
+	echo_date "获取路由器样式"
   # new nethod: use nvram value to set skin
 	local UI_TYPE=ASUSWRT
 	local SC_SKIN=$(nvram get sc_skin)
@@ -167,7 +169,7 @@ set_skin(){
 			UI_TYPE="ASUSWRT"
 		fi
 	fi
-	if [ -z "${SC_SKIN}" -o "${SC_SKIN}" != "${UI_TYPE}" ];then
+	if [ -z "${SC_SKIN}" ] || [ "${SC_SKIN}" != "${UI_TYPE}" ];then
 		nvram set sc_skin="${UI_TYPE}"
 		nvram commit
 	fi
@@ -177,7 +179,7 @@ exit_install(){
 	local state=$1
 	case $state in
 		1)
-			echo_date "MerlinClash2项目地址：https://t.me/merlinclashcat"
+			echo_date "MerlinClash2项目地址：https://github.com/fastbash/MerlinClash2"
 			echo_date "退出安装！"
 			rm -rf /tmp/${module}* >/dev/null 2>&1
 			exit 1
@@ -208,7 +210,7 @@ install_now(){
 	sleep 2s
 
 	# 先关闭clash
-	if [ "${merlinclash_enable}" == "1" ];then
+	if [ "${merlinclash_enable}" = "1" ];then
 		if [ -f "/koolshare/scripts/clash_config.sh" ] && [ -f "/koolshare/merlinclash/clashconfig.sh" ];then
 			echo_date "正在关闭Merlin Clash插件，保证文件更新成功"
 			dbus set merlinclash_enable="0"
@@ -251,7 +253,7 @@ install_now(){
 	rm -rf /koolshare/res/china_ip_route6.ipset
 	rm -rf /tmp/upload/dns_redirhost.txt
 	rm -rf /tmp/upload/dns_fakeip.txt
-	find /koolshare/init.d/ -name "*merlinclash*" | xargs rm -rf
+	find /koolshare/init.d/ -name "*merlinclash*" -exec rm -rf {} \;
 	#------subconverter--------
 	rm -rf /koolshare/bin/subconverter
 	rm -rf /koolshare/merlinclash/subconverter/subconverter
@@ -272,7 +274,7 @@ install_now(){
 	if [ "$SPACE_AVAL" -gt "$SPACE_NEED" ];then
 		  echo_date "当前jffs分区剩余${SPACE_AVAL}KB, 插件安装大概需要${SPACE_NEED}KB，空间满足，继续安装！"
 	else
-		if [ "${mcinstall}" == "1" ]; then
+		if [ "${mcinstall}" = "1" ]; then
 			echo_date ""
 			echo_date "======================  ！！异常退出！！ ==========================="
 			echo_date ""
@@ -333,7 +335,7 @@ install_now(){
 	cp -rf /tmp/merlinclash/clash/clashconfig.sh /koolshare/merlinclash/
 	cp -rf /tmp/merlinclash/version /koolshare/merlinclash/
 
-	if [ "${mcinstall}" == "1" ]; then
+	if [ "${mcinstall}" = "1" ]; then
 		rm -rf /tmp/merlinclash/yaml_basic/host
 		echo_date "----------------------------------------------------------------"
 		echo_date "检测到早期版本的Merlin Clash，开始进行升级安装..."
@@ -379,11 +381,13 @@ install_now(){
 	[ ! -L "/koolshare/init.d/N150merlinclash.sh" ]  && ln -sf /koolshare/scripts/clash_config.sh /koolshare/init.d/N150merlinclash.sh
 
 	echo_date "数据初始化"
-	dbus_nset merlinclash_mixport_enable "0"
+	dbus_nset merlinclash_mixport_enable "1"
 	dbus_nset merlinclash_useragent "Y2xhc2gK"
-	dbus set merlinclash_scrule_version="2025030201"
+	dbus set merlinclash_scrule_version="2025032901"
 	dbus_nset merlinclash_check_delay_time "40"
-	dbus_nset merlinclash_dnsedit_tag "redirhost"
+	# dbus set merlinclash_dnsedit_tag="fakeip" #redirhost
+	# dbus set merlinclash_dnsplan="fi" #rh # DNS方案
+	dbus_nset "merlinclash_dns_fakeipblack" "$(nvram get wan_dns | awk '{print $1}')"
 	dbus_nset merlinclash_mark_MD51 ""
 	dbus_nset merlinclash_check_clashimport "1" #导入CLASH
 	dbus_nset merlinclash_check_sclocal "0"	#SUBC/ACL转换

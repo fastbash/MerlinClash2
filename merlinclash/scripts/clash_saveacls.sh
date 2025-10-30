@@ -64,7 +64,7 @@ usefile(){
     if [ -f "/koolshare/merlinclash/rule_custom/${yamlname}_custom_rule.yaml" ]; then
         acl_nu=$(get_list merlinclash_acl_type 1 4)
         echo_date "当配置文件变化且有自定义规则时，先清除自定义规则的值" >> $LOG_FILE
-        if [ $yamlselchange == "1" ]; then
+        if [ $yamlselchange = "1" ]; then
             if [ -n "$acl_nu" ]; then
                 for acl in $acl_nu; do
                     dbus remove merlinclash_acl_type_$acl

@@ -24,7 +24,7 @@ rm -rf $Regularlog
 
 echo_date "定时订阅进程启动" >> $Regularlog
 
-if [ "$subscribeplan" == "all" ]; then
+if [ "$subscribeplan" = "all" ]; then
 	a=$(ls $filename | wc -l)
 	if [ $a -gt 0 ]; then
 		lines=$(cat $filename | wc -l)
@@ -53,15 +53,15 @@ if [ "$subscribeplan" == "all" ]; then
 			scv=$(echo $line | grep -o "\"scv\".*"|awk -F\" '{print $4}')
 			tfo=$(echo $line | grep -o "\"tfo\".*"|awk -F\" '{print $4}')
 			acltype=$(echo $line | grep -o "\"acltype\".*"|awk -F\" '{print $4}')
-			if [ "$subscription_type" == "3" ] || [ "$subscription_type" == "5" ] || [ "$subscription_type" == "8" ]; then
+			if [ "$subscription_type" = "3" ] || [ "$subscription_type" = "5" ] || [ "$subscription_type" = "8" ]; then
 				addr=$(echo $line | grep -o "\"addr\".*"|awk -F\" '{print $4}')
 				#echo_date "addr=$addr" >> $Regularlog
-			elif [ "$subscription_type" == "4" ] || [ "$subscription_type" == "6" ]; then
+			elif [ "$subscription_type" = "4" ] || [ "$subscription_type" = "6" ]; then
 				customrule=$(echo $line | grep -o "\"customrule\".*"|awk -F\" '{print $4}')
-			elif [ "$subscription_type" == "7" ]; then
+			elif [ "$subscription_type" = "7" ]; then
 				customrule=$(echo $line | grep -o "\"customrule\".*"|awk -F\" '{print $4}')
 				urlinilink=$(echo $line | grep -o "\"url\".*"|awk -F\" '{print $4}')
-			elif [ "$subscription_type" == "8" ]; then
+			elif [ "$subscription_type" = "8" ]; then
 				urlinilink=$(echo $line | grep -o "\"url\".*"|awk -F\" '{print $4}')
 			else
 				echo_date "参数超范围" >> $Regularlog
@@ -159,7 +159,7 @@ if [ "$subscribeplan" == "all" ]; then
 			esac
 			let i=i+1
 		done
-		if [ "$mcenable" == "1" ]; then
+		if [ "$mcenable" = "1" ]; then
 			#订阅后重启clash
 			sleep 5s
 			echo_date "订阅后重启clash" >> $Regularlog

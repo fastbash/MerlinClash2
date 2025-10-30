@@ -69,7 +69,7 @@ log_in () {
         ret=$(jq -r .ret /tmp/dc.txt)
         if [ "$ret" != "" ]; then
             echo_date "$ret" >> /tmp/upload/dlercloud.log
-            if [ "$ret" == "200" ]; then
+            if [ "$ret" = "200" ]; then
                 #token=$(echo $line |grep -o "token.*"|awk -F"[:,]" '{print $2}'|awk -F\" '{print $2}')
                 token=$(jq -r .data.token /tmp/dc.txt)
                 plan=$(jq -r .data.plan /tmp/dc.txt)
@@ -153,7 +153,7 @@ get_info () {
             echo_date "已获取文件，且文件不为空" >> /tmp/upload/dlercloud.log
             #line=$(sed -n ''$1'p' "/tmp/dc_clash.txt")
             ret=$(jq -r .ret /tmp/dc_clash.txt)
-                if [ "$ret" == "200" ]; then
+                if [ "$ret" = "200" ]; then
                     echo_date "200:取得信息" >> /tmp/upload/dlercloud.log
                     ss=$(jq -r .ss /tmp/dc_clash.txt)
                     v2=$(jq -r .vmess /tmp/dc_clash.txt)
@@ -195,7 +195,7 @@ check_login(){
         echo_date "已获取文件，且文件不为空" >> /tmp/upload/dlercloud.log
         #line=$(sed -n ''$1'p' "/tmp/dc.txt")
         ret=$(jq -r .ret /tmp/dc.txt)
-        if [ "$ret" == "200" ]; then
+        if [ "$ret" = "200" ]; then
             #token仍然有效
             echo_date "获取info成功" >> /tmp/upload/dlercloud.log
             #token=$(jq -r .data.token /tmp/dc.txt)

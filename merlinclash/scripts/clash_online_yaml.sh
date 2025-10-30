@@ -21,7 +21,7 @@ Regularlog=/tmp/upload/merlinclash_regular.log
 get(){
 	a=$(echo $(dbus get $1))
 	a=$(echo $(dbus get $1))
-	echo $a
+	echo $a | tr -d '\r'
 }
 b(){
 	if [ -f "/koolshare/bin/base64_decode" ]; then #HND有这个
@@ -59,7 +59,7 @@ decode_url_link(){
 	fi
 }
 
-UA="$(decode_url_link ${merlinclash_useragent}) $(get softcenter_module_merlinclash_title) $(get merlinclash_version_local) $(get merlinclash_clash_version)"
+UA="$(decode_url_link ${merlinclash_useragent}) $(get softcenter_module_merlinclash_title)/$(get merlinclash_version_local) $(get merlinclash_clash_version | sed 's# #/#g') softcenter/$(get softcenter_version)"
 
 after_update(){
 	if [ -z "$(dbus get merlinclash_yamlsel)" ] && [ -n "$(cat /koolshare/merlinclash/yaml_bak/yamls.txt)" ];then
@@ -108,7 +108,7 @@ start_online_update(){
 		curl --user-agent "$UA" -4sSk --connect-timeout 20 $merlinc_link > /tmp/upload/$upname
 		echo_date "配置文件下载完成" >>$LOG_FILE
 		#虽然为0但是还是要检测下是否下载到正确的内容
-		if [ "$?" == "0" ];then
+		if [ "$?" = "0" ];then
 			#下载为空...
 			if [ -z "$(cat /tmp/upload/$upname)" ]; then
 				#echo_date "下载内容为空..."
@@ -123,7 +123,7 @@ start_online_update(){
 				fi
 			else	
 				#订阅地址有跳转
-				local blank=$(cat /tmp/upload/$upname | grep -E " |Redirecting|301")
+				local blank=$(cat /tmp/upload/$upname | grep -E "Redirecting|301")
 				if [ -n "$blank" ]; then
 					echo_date "订阅链接可能有跳转，尝试更换wget进行下载..." >> $LOG_FILE
 					rm /tmp/upload/$upname
@@ -149,7 +149,7 @@ start_online_update(){
 				wget --user-agent="$UA" --timeout=15 -qO /tmp/upload/$upname $merlinc_link	
 			fi
 
-			if [ "$?" == "0" ]; then
+			if [ "$?" = "0" ]; then
 				#下载为空...
 				if [ -z "$(cat /tmp/upload/$upname)" ]; then
 					echo_date "wget下载内容为空..." >> $LOG_FILE
@@ -164,7 +164,7 @@ start_online_update(){
 		echo_date "已获取Clash配置文件" >> $LOG_FILE
 		echo_date "yaml文件合法性检查" >> $LOG_FILE
 		check_yamlfile
-		if [ $? == "1" ]; then
+		if [ $? = "1" ]; then
 		#执行上传文件名.yaml处理工作，包括去注释，去空白行，去除dns以上头部，将标准头部文件复制一份到/tmp/ 跟tmp的标准头部文件合并，生成新的head.yaml，再将head.yaml复制到/koolshare/merlinclash/并命名为upload.yaml
 			echo_date "执行yaml文件预处理工作" >> $LOG_FILE
 			sh /koolshare/scripts/clash_yaml_sub.sh #>/dev/null 2>&1 &
@@ -195,7 +195,7 @@ start_regular_update(){
 	curl --user-agent "$UA" -4sSk --connect-timeout 20 $merlinc_link > /tmp/upload/$upname
 	echo_date "订阅下载完成" >> $Regularlog
 	#虽然为0但是还是要检测下是否下载到正确的内容
-	if [ "$?" == "0" ];then
+	if [ "$?" = "0" ];then
 		#下载为空...
 		if [ -z "$(cat /tmp/upload/$upname)" ]; then
 			#echo_date "下载内容为空..."
@@ -210,7 +210,7 @@ start_regular_update(){
 			fi
 		else	
 			#订阅地址有跳转
-			local blank=$(cat /tmp/upload/$upname | grep -E " |Redirecting|301")
+			local blank=$(cat /tmp/upload/$upname | grep -E "Redirecting|301")
 			if [ -n "$blank" ]; then
 				echo_date "订阅链接可能有跳转，尝试更换wget进行下载..." >> $Regularlog
 				rm /tmp/upload/$upname
@@ -237,7 +237,7 @@ start_regular_update(){
 			#wget --timeout=15 -qO /tmp/upload/$upname $merlinc_link	
 			wget --user-agent="$UA" -t3 -T30 -4 -O /tmp/upload/$upname "$merlinc_link"
 		fi
-		if [ "$?" == "0" ]; then
+		if [ "$?" = "0" ]; then
 			#下载为空...
 			if [ -z "$(cat /tmp/upload/$upname)" ]; then
 				echo_date "wget下载内容为空..." >> $Regularlog
@@ -252,7 +252,7 @@ start_regular_update(){
 	echo_date "已获取Clash配置文件" >> $Regularlog
 	echo_date "yaml文件合法性检查" >> $Regularlog
 	check_yamlfile
-	if [ $? == "1" ]; then
+	if [ $? = "1" ]; then
 	#执行上传文件名.yaml处理工作，包括去注释，去空白行，去除dns以上头部，将标准头部文件复制一份到/tmp/ 跟tmp的标准头部文件合并，生成新的head.yaml，再将head.yaml复制到/koolshare/merlinclash/并命名为upload.yaml
 		echo_date "执行yaml文件处理工作" >> $Regularlog
 		sh /koolshare/scripts/clash_yaml_sub.sh #>/dev/null 2>&1 &

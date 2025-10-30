@@ -57,6 +57,13 @@ dns=$(decode_url_link $mdec | sed 'y/+/ /; s/%/\\x/g')
 
 if [ "$dt" == "redirhost" ]; then
 	echo -e "$dns" > /koolshare/merlinclash/yaml_dns/redirhost.yaml
+	localDNS=""
+	for _wan_dns in $(nvram get wan_dns);do
+		localDNS="${localDNS}    - ${_wan_dns}\n"
+	done
+	if [ -n "$localDNS" ];then
+		sed -i "s#    - 223.5.5.5#${localDNS}#g" /koolshare/merlinclash/yaml_dns/redirhost.yaml
+	fi
 	echo_date "写入redirhost.yaml" >> /tmp/upload/dnsfile.log
 	#删除空行
 	sed -i '/^ *$/d' $rh
