@@ -4225,7 +4225,7 @@ function getaclconfigsmax(){
 																		<th><a class="hintstyle" href="javascript:void(0);" onclick="openmcHint(28)">黑名单设备解析服务器</a></th>
 																		<td colspan="2">
 																			<div class="SimpleNote" id="head_illustrate">
-																				<input id="merlinclash_dns_fakeipblack" class="input_15_table" value="<% nvram_get('wan_dns')'; %>">
+																				<input id="merlinclash_dns_fakeipblack" class="input_15_table" value="223.5.5.5">
 																			</div>
 																		</td>
 																	</tr>

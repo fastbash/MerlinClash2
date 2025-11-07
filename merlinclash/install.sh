@@ -387,7 +387,8 @@ install_now(){
 	dbus_nset merlinclash_check_delay_time "40"
 	# dbus set merlinclash_dnsedit_tag="fakeip" #redirhost
 	# dbus set merlinclash_dnsplan="fi" #rh # DNS方案
-	dbus_nset "merlinclash_dns_fakeipblack" "$(nvram get wan_dns | awk '{print $1}')"
+	# dbus_nset "merlinclash_dns_fakeipblack" "$(nvram get wan_dns | awk '{print $1}')"
+	dbus set merlinclash_dns_fakeipblack="$(nvram get wan_dns | awk '{print $1}')"
 	dbus_nset merlinclash_mark_MD51 ""
 	dbus_nset merlinclash_check_clashimport "1" #导入CLASH
 	dbus_nset merlinclash_check_sclocal "0"	#SUBC/ACL转换
