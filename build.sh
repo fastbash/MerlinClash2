@@ -19,7 +19,7 @@ fi
 
 tmpDIR="${DIR:?}/_tmp"
 
-for bintype in 32 64;do
+for bintype in 32 64 384 380;do
     rm -rf "${tmpDIR:?}"
     mkdir -p "$tmpDIR"
     \cp -rf "${DIR}/merlinclash" "${tmpDIR}/"
