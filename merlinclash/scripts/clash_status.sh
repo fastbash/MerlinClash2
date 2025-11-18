@@ -25,9 +25,9 @@ if [ ! -f $yamlpath ]; then
     port=''
     secret=''
 else
-    host_port=$(cat $yamlpath | awk -F": " '/external-controller/{print $2}')
-    port=$(cat $yamlpath | awk -F: '/external-controller/{print $3}')
-    secret=$(cat $yamlpath | awk '/secret:/{print $2}' | sed 's/"//g')
+    host_port=$(awk -F": " '/external-controller/{print $2}' $yamlpath)
+    port=$(awk -F: '/external-controller/{print $3}' $yamlpath)
+    secret=$(awk '/secret:/{print $2}' $yamlpath | sed 's/"//g')
 fi
 
 if [ -n "$pid_clash" ]; then
@@ -79,7 +79,7 @@ proxyPort=$merlinclash_cus_port
 checkHostIsBlock(){
     local domain=$(echo $1|sed -E 's/^https?:\/\/([^\/:]+).*$/\1/')
     local ip=$(ping -4 -c 1 -W 1 "$domain" 2>/dev/null | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -n 1)
-    if [ "$ip" == "127.0.0.1" ] || [ "$ip" == "0.0.0.0" ] || [ -z "$ip" ]; then
+    if [ "$ip" = "127.0.0.1" ] || [ "$ip" = "0.0.0.0" ] || [ -z "$ip" ]; then
         return 1
     else
         return 0
@@ -149,7 +149,7 @@ checkWebSite(){
         return ;
     fi
     checkHostIsBlock $url
-    if [ "$?" == "0" ]; then
+    if [ "$?" = "0" ]; then
         # 检查连通性
         if [ -z "$2" ];then #国内，不走代理，提速。
             if wget --no-hsts -q -O - --timeout=2 --tries=1   --spider "$url"; then
@@ -173,7 +173,7 @@ text20="不检测"
 text21="不检测"
 text22="不检测"
 text23="不检测"
-if [ "$merlinclash_mixport_enable" == "1" ]; then
+if [ "$merlinclash_mixport_enable" = "1" ]; then
     # 创建临时文件，用于存储返回值
     tempfile1="/tmp/mc_ip_tempfile1_$$.tmp"
     tempfile2="/tmp/mc_ip_tempfile2_$$.tmp"

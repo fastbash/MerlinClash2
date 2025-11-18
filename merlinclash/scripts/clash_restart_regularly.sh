@@ -1,48 +1,41 @@
 #!/bin/sh
 
-source /koolshare/scripts/base.sh
-alias echo_date='echo 【$(date +%Y年%m月%d日\ %X)】:'
-LOG_FILE=/tmp/upload/merlinclash_log.txt
+# source /koolshare/scripts/base.sh
 
-eval `dbus export merlinclash_`
+. /koolshare/scripts/clash_base.sh
 
-get(){
-	a=$(echo $(dbus get $1))
-	a=$(echo $(dbus get $1))
-	echo $a
-}
 mscr=$(get merlinclash_select_clash_restart)
 mscrm=$(get merlinclash_select_clash_restart_minute)
 mscrh=$(get merlinclash_select_clash_restart_hour)
 mscrw=$(get merlinclash_select_clash_restart_week)
 mscrd=$(get merlinclash_select_clash_restart_day)
 mscrm_2=$(get merlinclash_select_clash_restart_minute_2)
+
 remove_clash_restart_regularly(){
-	if [ -n "$(cru l|grep clash_restart)" ]; then
-		
+	if cru l | grep -q clash_restart; then
 		sed -i '/clash_restart/d' /var/spool/cron/crontabs/* >/dev/null 2>&1
 	fi
 }
 start_clash_restart_regularly_day(){
 	remove_clash_restart_regularly
-	cru a clash_restart ${mscrm} ${mscrh}" * * * /bin/sh /koolshare/scripts/clash_restart_update.sh"
+	cru a clash_restart "${mscrm} ${mscrh} * * * /bin/sh /koolshare/scripts/clash_restart_update.sh"
 }
 start_clash_restart_regularly_week(){
 	remove_clash_restart_regularly
-	cru a clash_restart ${mscrm} ${mscrh}" * * "${mscrw}" /bin/sh /koolshare/scripts/clash_restart_update.sh"
+	cru a clash_restart "${mscrm} ${mscrh} * * ${mscrw} /bin/sh /koolshare/scripts/clash_restart_update.sh"
 }
 start_clash_restart_regularly_month(){
 	remove_clash_restart_regularly
-	cru a clash_restart ${mscrm} ${mscrh} ${mscrd}" * * /bin/sh /koolshare/scripts/clash_restart_update.sh"
+	cru a clash_restart "${mscrm} ${mscrh} ${mscrd} * * /bin/sh /koolshare/scripts/clash_restart_update.sh"
 
 }
 start_clash_restart_regularly_mhour(){
 	remove_clash_restart_regularly
 	if [ "$mscrm_2" = "2" ] || [ "$mscrm_2" = "5" ] || [ "$mscrm_2" = "10" ] || [ "$mscrm_2" = "15" ] || [ "$mscrm_2" = "20" ] || [ "$mscrm_2" = "25" ] || [ "$mscrm_2" = "30" ]; then
-		cru a clash_restart "*/"${mscrm_2}" * * * * /bin/sh /koolshare/scripts/clash_restart_update.sh"
+		cru a clash_restart "*/${mscrm_2} * * * * /bin/sh /koolshare/scripts/clash_restart_update.sh"
 	fi
 	if [ "$mscrm_2" = "1" ] || [ "$mscrm_2" = "3" ] || [ "$mscrm_2" = "6" ] || [ "$mscrm_2" = "12" ]; then
-		cru a clash_restart "0 */"${mscrm_2} "* * * /bin/sh /koolshare/scripts/clash_restart_update.sh"
+		cru a clash_restart "0 */${mscrm_2} * * * /bin/sh /koolshare/scripts/clash_restart_update.sh"
 	fi
 }
 

@@ -1,11 +1,14 @@
 dns:
   enable: true
   ipv6: false
-  listen: :23453
+  listen: 192.168.50.1:23453
   enhanced-mode: redir-host
   respect-rules: true
+  proxy-server-nameserver:
+    - https://223.5.5.5/dns-query
   nameserver:
-    - 223.5.5.5
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
   fallback:
     - https://8.8.8.8/dns-query
   fallback-filter:
@@ -14,6 +17,4 @@ dns:
       - 0.0.0.0/32
       - 127.0.0.1/32
   direct-nameserver:
-    - 223.5.5.5
-  proxy-server-nameserver:
     - 223.5.5.5

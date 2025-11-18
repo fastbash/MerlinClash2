@@ -258,7 +258,7 @@ restore_backup(){
 			rm -rf /tmp/upload/clash_kpipsetarround.txt
 			ln -sf /koolshare/merlinclash/yaml_basic/kpipsetarround.yaml /tmp/upload/clash_kpipsetarround.txt
 		fi
-		if [ "$mcflag" == "HND" ]; then
+		if [ "$mcflag" = "HND" ]; then
 			echo_date "HND专属：还原自定义ini和list文件" >> $LOG_FILE
 			if [ ! -d "/tmp/clash_backup/merlinclash/custom/ini" ];then
 				echo_date "无自定义ini，跳过" >> $LOG_FILE

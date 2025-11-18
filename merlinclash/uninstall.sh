@@ -13,6 +13,7 @@ fi
 
 find /koolshare/init.d/ -name "*clash*" | xargs rm -rf
 rm -rf /koolshare/bin/clash
+rm -rf /data/*-MC2
 rm -rf /koolshare/bin/jq >/dev/null 2>&1
 rm -rf /koolshare/bin/haveged >/dev/null 2>&1
 rm -rf /tmp/upload/yamls.txt
@@ -56,7 +57,7 @@ rm -rf /jffs/configs/dnsmasq.d/dns_custom.conf >/dev/null 2>&1
 
 #清除相关skipd数据
 
-datas=`dbus list merlinclash_ | cut -d "=" -f 1`
+datas=$(dbus list merlinclash_ | cut -d "=" -f 1)
 for data in $datas
 do
 	dbus remove $data

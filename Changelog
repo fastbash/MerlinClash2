@@ -1,3 +1,17 @@
+MerlinClash2 v0.3.4
+- Subscription update agent: add Software Center version and router model
+- Enable TCP concurrency by default
+- Enable HTTP/SOCKS proxy ports by default
+- Disable plugin message queue by default
+- Download function rewritten:
+  Use wget to try downloads both with and without proxy; use curl for non-proxy downloads
+- Manual and scheduled subscription updates use the download function
+- Fix issue where editing DNS did not correctly match variables
+- Fix installation issues on firmware versions 380/384
+- Enable online version updates
+- Detect whether the USB drive was expanded during installation
+- Check whether /data partition exists
+
 MerlinClash2 v0.3.3
 - Fix DNS to use the local ISP as the non-proxy DNS;
 - Enable connectivity check by default;

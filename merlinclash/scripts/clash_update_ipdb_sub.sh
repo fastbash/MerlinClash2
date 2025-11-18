@@ -63,13 +63,13 @@ downloadFile(){
 
 update_ipdb(){
     #下载maxmind
-    if [ "$mcgt" == "maxmind" ]; then
+    if [ "$mcgt" = "maxmind" ]; then
         echo_date "下载数据库来源为：$mcgt" >> $LOG_FILE
         tmpStoragePath="$uploadpath/ipdb.tar.gz"
         echo_date "开始下载最新 IP 数据库..." >> $LOG_FILE
         downloadFile $ipdb_url $tmpStoragePath
     
-        if [ "$fileIsValid" == "1" ]; then
+        if [ "$fileIsValid" = "1" ]; then
             echo_date "下载完成，开始解压" >> $LOG_FILE
             mkdir -p $uploadpath/ipdb
             tar zxvf $uploadpath/ipdb.tar.gz -C $uploadpath/ipdb

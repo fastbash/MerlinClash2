@@ -12,7 +12,7 @@ get(){
 mcenable=$(get merlinclash_enable)
 mcwatchdog=$(get merlinclash_watchdog)
 mcwatchdog_dtime=$(get merlinclash_watchdog_delay_time)
-if [ "$mcenable" == "1" ] && [ "$mcwatchdog" == "1" ];then
+if [ "$mcenable" = "1" ] && [ "$mcwatchdog" = "1" ];then
 		sed -i '/clash_watchdog/d' /var/spool/cron/crontabs/* >/dev/null 2>&1
 		watcdogtime=$mcwatchdog_dtime
 		cru a clash_watchdog "*/$watcdogtime * * * * /bin/sh /koolshare/scripts/clash_watchdog.sh"

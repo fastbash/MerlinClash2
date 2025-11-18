@@ -91,12 +91,12 @@ echo_date "port:行数为$port_line" >> $LOG_FILE
 echo_date "proxies:行数为$proxies_line" >> $LOG_FILE
 
 COMP=$(versioncmp $proxies_line $port_line)
-if [ "$COMP" == "-1" ];then
+if [ "$COMP" = "-1" ];then
     echo_date "proxies行数大于port行数，说明port在proxies之前，截取proxies到末尾内容" >> $LOG_FILE
     tail +$proxies_line $yaml_tmp > /tmp/a.yaml
-elif [ "$COMP" == "1" ];then
+elif [ "$COMP" = "1" ];then
     echo_date "proxies行数小于port行数，说明port在proxies之后，截取proxies到port行-1之间内容" >> $LOG_FILE
-    b=$(($port_line-1))
+    b=$((port_line-1))
     sed -n "$proxies_line,$b p" $yaml_tmp > /tmp/a.yaml
 fi
 #20200902---------------

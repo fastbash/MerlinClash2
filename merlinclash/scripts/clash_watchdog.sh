@@ -10,7 +10,7 @@ get(){
 	echo $a
 }
 mcenable=$(get merlinclash_enable)
-if [ "$mcenable" == "1" ]; then
+if [ "$mcenable" = "1" ]; then
     #echo_date "开始检查进程状态..."
     if [ ! -n "$(pidof clash)" ]; then
         #先执行清除缓存
